@@ -37,6 +37,7 @@ unique_df = get_unique_df(selected_df)
 unique_df = unique_df[unique_df['Currency'] == 'RUR']
 
 #MAP
+st.header('Map of Vacancies')
 color = pd.Categorical(unique_df.Text).codes
 fig = go.Figure(go.Scattermapbox(lat=unique_df['Lat'], lon=unique_df['Lon'],
                                  text=unique_df['Text'],
@@ -51,7 +52,8 @@ fig.update_layout(mapbox_style="open-street-map",
                   margin=margin)
 st.plotly_chart(fig)
 
-#DISTRIBURION
+#DISTRIBUTION
+st.header('Distibution of Vacancies')
 sum_counts = selected_df['Text'].value_counts()
 fig = go.Figure()
 fig.add_trace(go.Pie(values=sum_counts, labels=sum_counts.index))
@@ -59,6 +61,7 @@ fig.update_layout(margin=margin)
 st.plotly_chart(fig)
 
 #SALARY MEAN
+st.header('Average Salary by Day')
 sf_mean = unique_df['SalaryFrom'].groupby('PublishedAt').median()
 st_mean = unique_df['SalaryTo'].groupby('PublishedAt').median()
 
@@ -97,9 +100,3 @@ fig.update_layout(margin=margin,
                   xaxis_showgrid=False,
                   yaxis_showgrid=False,)
 st.plotly_chart(fig)
-
-
-
-
-
-st.write("Selected Decks:", selected_texts)
