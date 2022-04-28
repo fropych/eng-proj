@@ -3,6 +3,7 @@ import streamlit as st
 import plotly.graph_objs as go
 import plotly.express as px
 import numpy as np
+import os
 
 def get_unique_df(df):
     
@@ -14,8 +15,8 @@ def get_unique_df(df):
 
 cities = pd.read_csv('https://raw.githubusercontent.com/hflabs/city/master/city.csv')
 
-
-df = pd.read_csv(r'.\vacancies.csv', sep=';', parse_dates=['PublishedAt',])
+path = os.path.abspath(r'.\vacancies.csv')
+df = pd.read_csv(path, sep=';', parse_dates=['PublishedAt',])
 
 
 margin=go.layout.Margin(
