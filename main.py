@@ -15,7 +15,7 @@ def get_unique_df(df):
 
 cities = pd.read_csv('https://raw.githubusercontent.com/hflabs/city/master/city.csv')
 
-path = os.path.abspath(r'.\vacancies.csv')
+path = os.path.abspath(r'./vacancies.csv')
 df = pd.read_csv(path, sep=';', parse_dates=['PublishedAt',])
 
 
