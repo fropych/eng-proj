@@ -6,7 +6,6 @@ import numpy as np
 import os
 
 def get_unique_df(df):
-    
     columns = {vac_id: 'first' for vac_id in df.columns[1:]}
     columns["Text"] = '|'.join
     unique_df = df.groupby('Id').agg(columns).reset_index()
@@ -51,8 +50,9 @@ selected_df = df[df["Text"].str.\
                         contains('|'.join(selected_texts),
                                           case=False)]
 
+selected_df = selected_df[selected_df['Currency'] == 'RUR']
 unique_df = get_unique_df(selected_df)
-unique_df = unique_df[unique_df['Currency'] == 'RUR']
+
 
 #ROW DATA
 st.sidebar.subheader('Raw Data')
@@ -73,9 +73,14 @@ selected_df.set_index('PublishedAt', inplace=True)
 
 #MAP
 st.header('Map of Vacancies')
+
+text = unique_df['Text']+'<br>'+\
+       'Salary: ' +\
+       unique_df['SalaryFrom'].fillna(0).astype(str)+' - '+\
+       unique_df['SalaryTo'].fillna('∞').astype(str)
 color = pd.Categorical(unique_df.Text).codes
 fig = go.Figure(go.Scattermapbox(lat=unique_df['Lat'], lon=unique_df['Lon'],
-                                 text=unique_df['Text'],
+                                 text=text,
                                  marker=dict(color=color,
                                              opacity=0.5,
                                              size=10)
@@ -99,7 +104,7 @@ top_x=None
 if show == 'Employer':
     top_x=st.slider('Top:',
                     min_value=5,
-                    max_value=100,
+                    max_value=50,
                     value=10)
     
 sum_counts = cur_df[show].value_counts()[:top_x]
@@ -129,7 +134,7 @@ st.plotly_chart(fig)
 
 #SALARY
 st.header('Average Salary')
-show = st.radio('Average by', ['Experience', 'Schedule', 'Day'])
+show = st.radio('Average by:', ['Experience', 'Schedule', 'Day'])
 fig = go.Figure()
 if show == 'Day':
     sf_mean = unique_df['SalaryFrom'].groupby('PublishedAt').median()
@@ -164,16 +169,3 @@ fig.update_layout(margin=margin,
                   xaxis_showgrid=False,
                   yaxis_showgrid=False,)
 st.plotly_chart(fig)
-
-
-
-#NUMBER OF VACANCIES BY EXPERIENCE
-# st.header('Number of Vacancies by Experience')
-# fig = go.Figure()
-# fig.add_trace(go.Histogram(x=selected_df['Experience'],
-#                            opacity=0.5,
-#                            marker_color='rgba(0,176,246,1)'))
-# fig.update_layout(margin=margin,
-#                   xaxis_showgrid=False,
-#                   yaxis_showgrid=False,)
-# st.plotly_chart(fig)
