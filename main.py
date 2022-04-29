@@ -138,17 +138,18 @@ fig.update_layout(margin=margin,
                   yaxis_showgrid=False,)
 st.plotly_chart(fig)
 
-#SALARY BY EXPERIENCE
-st.header('Average Salary by Experience')
+#SALARY
+st.header('Average Salary')
+show = st.radio('By:', ['Experience', 'Schedule'])
 fig = go.Figure()
-fig.add_trace(go.Histogram(x=df['Experience'],
-                           y=df['SalaryFrom'],
+fig.add_trace(go.Histogram(x=unique_df[show],
+                           y=unique_df['SalaryFrom'],
                            histfunc='avg',
                            opacity=0.85,
                            marker_color='rgba(0,100,80,1)',
                            name='SalaryFrom',))
-fig.add_trace(go.Histogram(x=df['Experience'],
-                           y=df['SalaryTo'],
+fig.add_trace(go.Histogram(x=unique_df[show],
+                           y=unique_df['SalaryTo'],
                            histfunc='avg',
                            opacity=0.35,
                            marker_color='rgba(0,176,246,1)',
