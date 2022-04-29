@@ -32,8 +32,10 @@ selected_texts = st.sidebar.multiselect("Select Requests",
 selected_df = df[df["Text"].str.\
                         contains('|'.join(selected_texts),
                                           case=False)]
+
 unique_df = get_unique_df(selected_df)
 unique_df = unique_df[unique_df['Currency'] == 'RUR']
+selected_df.set_index('PublishedAt', inplace=True)
 
 #ROW DATA
 st.sidebar.subheader('Raw Data')
