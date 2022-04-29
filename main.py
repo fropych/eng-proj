@@ -50,7 +50,7 @@ if show_data == True:
     salary_col = ['SalaryFrom', 'SalaryTo']
     df_to_show = cur_df[show_unique].copy()
     df_to_show[salary_col]=df_to_show[salary_col].convert_dtypes()
-    st.write(df_to_show.reset_index())
+    st.write(df_to_show)
 
 #MAP
 st.header('Map of Vacancies')
