@@ -89,7 +89,9 @@ st.plotly_chart(fig)
 
 #DISTRIBUTION
 st.header('Distribution of Vacancies')
-sum_counts = selected_df['Text'].value_counts()
+show = st.radio('Distribution by:', ['Request', 'Experience', 'Schedule'])
+show = "Text" if show == 'Request' else show
+sum_counts = selected_df[show].value_counts()
 fig = go.Figure()
 fig.add_trace(go.Pie(values=sum_counts,
                      labels=sum_counts.index,
@@ -142,7 +144,7 @@ st.plotly_chart(fig)
 
 #NUMBER OF VACANCIES BY DAY
 st.header('Number of Vacancies by Day')
-show = st.radio('Show with Experience', ['None', 'Experience', 'Schedule'])
+show = st.radio('Show with:', ['None', 'Experience', 'Schedule'])
 if show=='None':
     fig = go.Figure()
     fig.add_trace(go.Histogram(x=unique_df.index,
