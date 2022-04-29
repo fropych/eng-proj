@@ -132,7 +132,9 @@ fig.add_trace(go.Histogram(x=df['Experience'],
                            marker_color='rgba(0,176,246,1)',
                            name='SalaryTo',))
 fig.update_layout(margin=margin,
-                  barmode='overlay',)
+                  barmode='overlay',
+                  xaxis_showgrid=False,
+                  yaxis_showgrid=False,)
 st.plotly_chart(fig)
 
 #NUMBER OF VACANCIES
