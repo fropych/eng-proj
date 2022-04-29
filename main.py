@@ -46,10 +46,13 @@ if show_data:
     st.markdown("#### Job data for the last month from HeadHunter")
     if show_unique:
         df_to_show = unique_df.copy()
+        df_to_show[salary_col]=df_to_show[salary_col].convert_dtypes()
+        st.write(df)
     else:  
         df_to_show = selected_df.copy()
-    df_to_show[salary_col]=df_to_show[salary_col].convert_dtypes()
-    st.write(df)
+        df_to_show[salary_col]=df_to_show[salary_col].convert_dtypes()
+        st.write(df)
+    
 
 #MAP
 st.header('Map of Vacancies')
