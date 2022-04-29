@@ -99,6 +99,23 @@ fig.add_trace(go.Pie(values=sum_counts,
 fig.update_layout(margin=margin)
 st.plotly_chart(fig)
 
+#NUMBER OF VACANCIES BY DAY
+st.header('Number of Vacancies by Day')
+show = st.radio('Show with:', ['None', 'Experience', 'Schedule'])
+if show=='None':
+    fig = go.Figure()
+    fig.add_trace(go.Histogram(x=unique_df.index,
+                            opacity=0.5,
+                            marker_color='rgba(0,176,246,1)'))
+else:
+    fig = px.histogram(x=unique_df.index, color=unique_df[show], opacity=0.65)
+fig.update_layout(margin=margin,
+                xaxis_showgrid=False,
+                yaxis_showgrid=False,
+                xaxis_title=None,
+                yaxis_title=None)
+st.plotly_chart(fig)
+
 #SALARY MEAN
 st.header('Average Salary by Day')
 
@@ -142,30 +159,15 @@ fig.update_layout(margin=margin,
                   yaxis_showgrid=False,)
 st.plotly_chart(fig)
 
-#NUMBER OF VACANCIES BY DAY
-st.header('Number of Vacancies by Day')
-show = st.radio('Show with:', ['None', 'Experience', 'Schedule'])
-if show=='None':
-    fig = go.Figure()
-    fig.add_trace(go.Histogram(x=unique_df.index,
-                            opacity=0.5,
-                            marker_color='rgba(0,176,246,1)'))
-else:
-    fig = px.histogram(x=unique_df.index, color=unique_df[show], opacity=0.65)
-fig.update_layout(margin=margin,
-                xaxis_showgrid=False,
-                yaxis_showgrid=False,
-                xaxis_title=None,
-                yaxis_title=None)
-st.plotly_chart(fig)
+
 
 #NUMBER OF VACANCIES BY EXPERIENCE
-st.header('Number of Vacancies by Experience')
-fig = go.Figure()
-fig.add_trace(go.Histogram(x=selected_df['Experience'],
-                           opacity=0.5,
-                           marker_color='rgba(0,176,246,1)'))
-fig.update_layout(margin=margin,
-                  xaxis_showgrid=False,
-                  yaxis_showgrid=False,)
-st.plotly_chart(fig)
+# st.header('Number of Vacancies by Experience')
+# fig = go.Figure()
+# fig.add_trace(go.Histogram(x=selected_df['Experience'],
+#                            opacity=0.5,
+#                            marker_color='rgba(0,176,246,1)'))
+# fig.update_layout(margin=margin,
+#                   xaxis_showgrid=False,
+#                   yaxis_showgrid=False,)
+# st.plotly_chart(fig)
