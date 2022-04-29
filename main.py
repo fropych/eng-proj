@@ -89,9 +89,17 @@ st.plotly_chart(fig)
 
 #DISTRIBUTION
 st.header('Distribution of Vacancies')
-show = st.radio('Distribution by:', ['Request', 'Experience', 'Schedule'])
+show = st.radio('Distribution by:', ['Employer', 'Request', 'Experience', 'Schedule'])
+if show != 'Request':
+    cur_df = unique_df
+else:
+    cur_df = selected_df
 show = "Text" if show == 'Request' else show
-sum_counts = selected_df[show].value_counts()
+if show == 'Employer':
+    top_x=st.slider(min_value=5,
+                    max_value=cur_df['Employer'].nunique(),
+                    value=5)
+sum_counts = cur_df[show].value_counts()
 fig = go.Figure()
 fig.add_trace(go.Pie(values=sum_counts,
                      labels=sum_counts.index,
@@ -116,31 +124,9 @@ fig.update_layout(margin=margin,
                 yaxis_title=None)
 st.plotly_chart(fig)
 
-#SALARY MEAN
-# st.header('Average Salary by Day')
-
-# sf_mean = unique_df['SalaryFrom'].groupby('PublishedAt').median()
-# st_mean = unique_df['SalaryTo'].groupby('PublishedAt').median()
-
-# idx = pd.date_range(sf_mean.index.min(), sf_mean.index.max())
-# sf_mean = sf_mean.reindex(idx, fill_value=0).fillna(0)
-# st_mean = st_mean.reindex(idx, fill_value=0).fillna(0)
-
-# sf_std = sf_mean * 0.2
-# st_std = st_mean * 0.2
-
-# fig = go.Figure()
-# plot_income(fig, 'SalaryFrom', sf_mean, sf_std, 'rgba(0,100,80,1)')
-# plot_income(fig, 'SalaryTo', st_mean, st_std, 'rgba(0,176,246,1)')
-
-# fig.update_layout(margin=margin,
-#                   xaxis_showgrid=False,
-#                   yaxis_showgrid=False,)
-# st.plotly_chart(fig)
-
 #SALARY
 st.header('Average Salary')
-show = st.radio('By', ['Experience', 'Schedule', 'Day'])
+show = st.radio('Average by', ['Experience', 'Schedule', 'Day'])
 fig = go.Figure()
 if show == 'Day':
     sf_mean = unique_df['SalaryFrom'].groupby('PublishedAt').median()
