@@ -118,6 +118,7 @@ fig.update_layout(margin=margin,
 st.plotly_chart(fig)
 
 #SALARY BY EXPERIENCE
+st.header('Salary by Experience')
 fig = go.Figure()
 fig.add_trace(go.Histogram(x=df['Experience'],
                            y=df['SalaryFrom'],
@@ -138,6 +139,7 @@ fig.update_layout(margin=margin,
 st.plotly_chart(fig)
 
 #NUMBER OF VACANCIES
+st.header('Number of Vacancies by Day')
 fig = go.Figure()
 fig.add_trace(go.Histogram(x=unique_df.index,
                            opacity=0.5,
