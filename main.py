@@ -38,8 +38,8 @@ unique_df = unique_df[unique_df['Currency'] == 'RUR']
 #ROW DATA
 st.sidebar.subheader('Raw Data')
 show_data = st.sidebar.checkbox('Show raw data')
-show_unique = st.sidebar.checkbox('Show only unique vacancies')
 if show_data == True:
+    show_unique = st.sidebar.checkbox('Show only unique vacancies')
     cur_df = {True: unique_df,
               False: selected_df} 
     salary_col = ['SalaryFrom', 'SalaryTo']
