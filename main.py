@@ -13,11 +13,9 @@ def get_unique_df(df):
     unique_df.set_index('PublishedAt', inplace=True)
     return unique_df
 
-cities = pd.read_csv('https://raw.githubusercontent.com/hflabs/city/master/city.csv')
-
 path = os.path.abspath(r'./vacancies.csv')
+cities = pd.read_csv('https://raw.githubusercontent.com/hflabs/city/master/city.csv')
 df = pd.read_csv(path, sep=';', parse_dates=['PublishedAt',])
-
 
 margin=go.layout.Margin(
         l=5,
@@ -25,15 +23,8 @@ margin=go.layout.Margin(
         b=5,
         t=5,
         pad=4)
-#ROW DATA
 st.sidebar.header('Settings')
-show_data = st.sidebar.checkbox('Show raw data')
-if show_data == True:
-    st.header('Raw data')
-    st.markdown(
-        "#### Job data for the last month from HeadHunter")
-    st.write(df)
-    
+
 #SELECT REQUESTS
 selected_texts = st.sidebar.multiselect("Select Requests",
                                         df['Text'].unique(),
@@ -43,6 +34,17 @@ selected_df = df[df["Text"].str.\
                                           case=False)]
 unique_df = get_unique_df(selected_df)
 unique_df = unique_df[unique_df['Currency'] == 'RUR']
+
+#ROW DATA
+st.sidebar.subheader('Raw Data')
+show_data = st.sidebar.checkbox('Show raw data')
+show_unique = st.sidebar.checkbox('Show only unique vacancies')
+if show_data == True:
+    st.header('Raw data')
+    st.markdown("#### Job data for the last month from HeadHunter")
+    df_to_show = selected_df.copy()
+    df_to_show[['SalaryFrom', 'SalaryTo']]=df_to_show[['SalaryFrom', 'SalaryTo']].convert_dtypes()
+    st.write(df)
 
 #MAP
 st.header('Map of Vacancies')
