@@ -11,7 +11,26 @@ def get_unique_df(df):
     columns["Text"] = '|'.join
     unique_df = df.groupby('Id').agg(columns).reset_index()
     return unique_df
-
+def plot_income(fig, name, mean, deviaton, line_color):
+    fillcolor = line_color[:-2] + '0.2)' 
+    fig.add_traces([go.Scatter(x=mean.index,
+                            y=mean+deviaton, 
+                            showlegend=False,
+                            line_color='rgba(255,255,255,0)',
+                            name=name),
+                    go.Scatter(x=mean.index, 
+                            y=mean-deviaton, 
+                            showlegend=False,
+                            line_color='rgba(255,255,255,0)',
+                            fillcolor=fillcolor, 
+                            fill='tonexty',
+                            name=name)])
+    fig.add_trace(go.Scatter(x=mean.index,
+                            y=mean,
+                            line_color=line_color,
+                            mode='lines+markers',
+                            name=name))
+    
 path = os.path.abspath(r'./vacancies.csv')
 cities = pd.read_csv('https://raw.githubusercontent.com/hflabs/city/master/city.csv')
 df = pd.read_csv(path, sep=';', parse_dates=['PublishedAt',])
@@ -90,26 +109,6 @@ sf_std = sf_mean * 0.2
 st_std = st_mean * 0.2
 
 fig = go.Figure()
-def plot_income(fig, name, mean, deviaton, line_color):
-    fillcolor = line_color[:-2] + '0.2)' 
-    fig.add_traces([go.Scatter(x=mean.index,
-                            y=mean+deviaton, 
-                            showlegend=False,
-                            line_color='rgba(255,255,255,0)',
-                            name=name),
-                    go.Scatter(x=mean.index, 
-                            y=mean-deviaton, 
-                            showlegend=False,
-                            line_color='rgba(255,255,255,0)',
-                            fillcolor=fillcolor, 
-                            fill='tonexty',
-                            name=name)])
-    fig.add_trace(go.Scatter(x=mean.index,
-                            y=mean,
-                            line_color=line_color,
-                            mode='lines+markers',
-                            name=name))
-
 plot_income(fig, 'SalaryFrom', sf_mean, sf_std, 'rgba(0,100,80,1)')
 plot_income(fig, 'SalaryTo', st_mean, st_std, 'rgba(0,176,246,1)')
 
@@ -118,7 +117,28 @@ fig.update_layout(margin=margin,
                   yaxis_showgrid=False,)
 st.plotly_chart(fig)
 
+#SALARY BY EXPERIENCE
+fig = go.Figure()
+fig.add_trace(go.Histogram(x=df['Experience'],
+                           y=df['SalaryFrom'],
+                           histfunc='avg',
+                           opacity=0.85,
+                           marker_color='rgba(0,100,80,1)',
+                           name='SalaryFrom',))
+fig.add_trace(go.Histogram(x=df['Experience'],
+                           y=df['SalaryTo'],
+                           histfunc='avg',
+                           opacity=0.35,
+                           marker_color='rgba(0,176,246,1)',
+                           name='SalaryTo',))
+fig.update_layout(margin=margin,
+                  barmode='overlay',)
+
 #NUMBER OF VACANCIES
 fig = go.Figure()
 fig.add_trace(go.Histogram(x=unique_df.index))
+fig.update_layout(margin=margin,
+                  opacity=0.5,
+                  xaxis_showgrid=False,
+                  yaxis_showgrid=False,)
 st.plotly_chart(fig)
