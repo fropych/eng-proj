@@ -137,9 +137,9 @@ st.plotly_chart(fig)
 
 #NUMBER OF VACANCIES
 fig = go.Figure()
-fig.add_trace(go.Histogram(x=unique_df.index))
+fig.add_trace(go.Histogram(x=unique_df.index,
+                           opacity=0.5))
 fig.update_layout(margin=margin,
-                  opacity=0.5,
                   xaxis_showgrid=False,
                   yaxis_showgrid=False,)
 st.plotly_chart(fig)
