@@ -144,7 +144,7 @@ st.header('Number of Vacancies by Day')
 # fig.add_trace(go.Histogram(x=unique_df.index,
 #                            opacity=0.5,
 #                            marker_color='rgba(0,176,246,1)'))
-fig = px.histogram(x=unique_df.index, color=unique_df["Experience"], opacity=0.7)
+fig = px.histogram(x=unique_df.index, color=unique_df["Experience"], opacity=0.5)
 fig.update_layout(margin=margin,
                   xaxis_showgrid=False,
                   yaxis_showgrid=False,)
