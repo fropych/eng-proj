@@ -139,8 +139,8 @@ fig.update_layout(margin=margin,
 st.plotly_chart(fig)
 
 #SALARY
-st.header('Average Salary')
-show = st.radio('By:', ['Experience', 'Schedule'])
+st.header('Average Salary by')
+show = st.radio('', ['Experience', 'Schedule'])
 fig = go.Figure()
 fig.add_trace(go.Histogram(x=unique_df[show],
                            y=unique_df['SalaryFrom'],
