@@ -49,6 +49,8 @@ if show_data == True:
     df_to_show = cur_df[show_unique].copy()
     df_to_show[salary_col]=df_to_show[salary_col].convert_dtypes()
     st.write(df_to_show)
+unique_df.set_index('PublishedAt', inplace=True)
+selected_df.set_index('PublishedAt', inplace=True)
 
 #MAP
 st.header('Map of Vacancies')
@@ -76,9 +78,6 @@ st.plotly_chart(fig)
 
 #SALARY MEAN
 st.header('Average Salary by Day')
-
-unique_df.set_index('PublishedAt', inplace=True)
-selected_df.set_index('PublishedAt', inplace=True)
 
 sf_mean = unique_df['SalaryFrom'].groupby('PublishedAt').median()
 st_mean = unique_df['SalaryTo'].groupby('PublishedAt').median()
@@ -117,4 +116,9 @@ plot_income(fig, 'SalaryTo', st_mean, st_std, 'rgba(0,176,246,1)')
 fig.update_layout(margin=margin,
                   xaxis_showgrid=False,
                   yaxis_showgrid=False,)
+st.plotly_chart(fig)
+
+#NUMBER OF VACANCIES
+fig = go.Figure()
+fig.add_trace(go.Histogram(x=unique_df.index))
 st.plotly_chart(fig)
