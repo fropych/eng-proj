@@ -93,7 +93,7 @@ sum_counts = selected_df['Text'].value_counts()
 fig = go.Figure()
 fig.add_trace(go.Pie(values=sum_counts,
                      labels=sum_counts.index,
-                     opacity=0.85))
+                     opacity=0.75))
 fig.update_layout(margin=margin)
 st.plotly_chart(fig)
 
@@ -142,14 +142,14 @@ st.plotly_chart(fig)
 
 #NUMBER OF VACANCIES BY DAY
 st.header('Number of Vacancies by Day')
-show = st.checkbox('Show with Experience')
-if not show:
+show = st.radio('Show with Experience', ['None', 'Experience', 'Schedule'])
+if show=='None':
     fig = go.Figure()
     fig.add_trace(go.Histogram(x=unique_df.index,
                             opacity=0.5,
                             marker_color='rgba(0,176,246,1)'))
 else:
-    fig = px.histogram(x=unique_df.index, color=unique_df["Experience"], opacity=0.65)
+    fig = px.histogram(x=unique_df.index, color=unique_df[show], opacity=0.65)
 fig.update_layout(margin=margin,
                 xaxis_showgrid=False,
                 yaxis_showgrid=False,
