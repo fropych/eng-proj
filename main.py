@@ -97,7 +97,8 @@ else:
 show = "Text" if show == 'Request' else show
 top_x=None
 if show == 'Employer':
-    top_x=st.slider(min_value=5,
+    top_x=st.slider('Top:',
+                    min_value=5,
                     max_value=100,
                     value=10)
     
