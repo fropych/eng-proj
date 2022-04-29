@@ -95,11 +95,13 @@ if show != 'Request':
 else:
     cur_df = selected_df
 show = "Text" if show == 'Request' else show
+top_x=None
 if show == 'Employer':
     top_x=st.slider(min_value=5,
-                    max_value=cur_df['Employer'].nunique(),
-                    value=5)
-sum_counts = cur_df[show].value_counts()
+                    max_value=100,
+                    value=10)
+    
+sum_counts = cur_df[show].value_counts()[:top_x]
 fig = go.Figure()
 fig.add_trace(go.Pie(values=sum_counts,
                      labels=sum_counts.index,
