@@ -118,7 +118,7 @@ fig.update_layout(margin=margin,
 st.plotly_chart(fig)
 
 #SALARY BY EXPERIENCE
-st.header('Salary by Experience')
+st.header('Average Salary by Experience')
 fig = go.Figure()
 fig.add_trace(go.Histogram(x=df['Experience'],
                            y=df['SalaryFrom'],
@@ -138,10 +138,21 @@ fig.update_layout(margin=margin,
                   yaxis_showgrid=False,)
 st.plotly_chart(fig)
 
-#NUMBER OF VACANCIES
+#NUMBER OF VACANCIES BY DAY
 st.header('Number of Vacancies by Day')
 fig = go.Figure()
 fig.add_trace(go.Histogram(x=unique_df.index,
+                           opacity=0.5,
+                           marker_color='rgba(0,176,246,1)'))
+fig.update_layout(margin=margin,
+                  xaxis_showgrid=False,
+                  yaxis_showgrid=False,)
+st.plotly_chart(fig)
+
+#NUMBER OF VACANCIES BY EXPERIENCE
+st.header('Number of Vacancies by Experience')
+fig = go.Figure()
+fig.add_trace(go.Histogram(x=selected_df['Experience'],
                            opacity=0.5,
                            marker_color='rgba(0,176,246,1)'))
 fig.update_layout(margin=margin,
