@@ -117,45 +117,61 @@ fig.update_layout(margin=margin,
 st.plotly_chart(fig)
 
 #SALARY MEAN
-st.header('Average Salary by Day')
+# st.header('Average Salary by Day')
 
-sf_mean = unique_df['SalaryFrom'].groupby('PublishedAt').median()
-st_mean = unique_df['SalaryTo'].groupby('PublishedAt').median()
+# sf_mean = unique_df['SalaryFrom'].groupby('PublishedAt').median()
+# st_mean = unique_df['SalaryTo'].groupby('PublishedAt').median()
 
-idx = pd.date_range(sf_mean.index.min(), sf_mean.index.max())
-sf_mean = sf_mean.reindex(idx, fill_value=0).fillna(0)
-st_mean = st_mean.reindex(idx, fill_value=0).fillna(0)
+# idx = pd.date_range(sf_mean.index.min(), sf_mean.index.max())
+# sf_mean = sf_mean.reindex(idx, fill_value=0).fillna(0)
+# st_mean = st_mean.reindex(idx, fill_value=0).fillna(0)
 
-sf_std = sf_mean * 0.2
-st_std = st_mean * 0.2
+# sf_std = sf_mean * 0.2
+# st_std = st_mean * 0.2
 
-fig = go.Figure()
-plot_income(fig, 'SalaryFrom', sf_mean, sf_std, 'rgba(0,100,80,1)')
-plot_income(fig, 'SalaryTo', st_mean, st_std, 'rgba(0,176,246,1)')
+# fig = go.Figure()
+# plot_income(fig, 'SalaryFrom', sf_mean, sf_std, 'rgba(0,100,80,1)')
+# plot_income(fig, 'SalaryTo', st_mean, st_std, 'rgba(0,176,246,1)')
 
-fig.update_layout(margin=margin,
-                  xaxis_showgrid=False,
-                  yaxis_showgrid=False,)
-st.plotly_chart(fig)
+# fig.update_layout(margin=margin,
+#                   xaxis_showgrid=False,
+#                   yaxis_showgrid=False,)
+# st.plotly_chart(fig)
 
 #SALARY
-st.header('Average Salary by')
-show = st.radio('', ['Experience', 'Schedule'])
+st.header('Average Salary')
+show = st.radio('By', ['Experience', 'Schedule', 'Day'])
 fig = go.Figure()
-fig.add_trace(go.Histogram(x=unique_df[show],
-                           y=unique_df['SalaryFrom'],
-                           histfunc='avg',
-                           opacity=0.85,
-                           marker_color='rgba(0,100,80,1)',
-                           name='SalaryFrom',))
-fig.add_trace(go.Histogram(x=unique_df[show],
-                           y=unique_df['SalaryTo'],
-                           histfunc='avg',
-                           opacity=0.35,
-                           marker_color='rgba(0,176,246,1)',
-                           name='SalaryTo',))
+if show == 'Day':
+    sf_mean = unique_df['SalaryFrom'].groupby('PublishedAt').median()
+    st_mean = unique_df['SalaryTo'].groupby('PublishedAt').median()
+
+    idx = pd.date_range(sf_mean.index.min(), sf_mean.index.max())
+    sf_mean = sf_mean.reindex(idx, fill_value=0).fillna(0)
+    st_mean = st_mean.reindex(idx, fill_value=0).fillna(0)
+
+    sf_std = sf_mean * 0.2
+    st_std = st_mean * 0.2
+
+    
+    plot_income(fig, 'SalaryFrom', sf_mean, sf_std, 'rgba(0,100,80,1)')
+    plot_income(fig, 'SalaryTo', st_mean, st_std, 'rgba(0,176,246,1)')
+else:
+    fig.add_trace(go.Histogram(x=unique_df[show],
+                            y=unique_df['SalaryFrom'],
+                            histfunc='avg',
+                            opacity=0.85,
+                            marker_color='rgba(0,100,80,1)',
+                            name='SalaryFrom',))
+    fig.add_trace(go.Histogram(x=unique_df[show],
+                            y=unique_df['SalaryTo'],
+                            histfunc='avg',
+                            opacity=0.35,
+                            marker_color='rgba(0,176,246,1)',
+                            name='SalaryTo',))
+    fig.update_layout(barmode='overlay')
+    
 fig.update_layout(margin=margin,
-                  barmode='overlay',
                   xaxis_showgrid=False,
                   yaxis_showgrid=False,)
 st.plotly_chart(fig)
