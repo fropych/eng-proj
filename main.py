@@ -10,7 +10,6 @@ def get_unique_df(df):
     columns = {vac_id: 'first' for vac_id in df.columns[1:]}
     columns["Text"] = '|'.join
     unique_df = df.groupby('Id').agg(columns).reset_index()
-    unique_df.set_index('PublishedAt', inplace=True)
     return unique_df
 
 path = os.path.abspath(r'./vacancies.csv')
@@ -35,7 +34,6 @@ selected_df = df[df["Text"].str.\
 
 unique_df = get_unique_df(selected_df)
 unique_df = unique_df[unique_df['Currency'] == 'RUR']
-selected_df.set_index('PublishedAt', inplace=True)
 
 #ROW DATA
 st.sidebar.subheader('Raw Data')
@@ -78,6 +76,10 @@ st.plotly_chart(fig)
 
 #SALARY MEAN
 st.header('Average Salary by Day')
+
+unique_df.set_index('PublishedAt', inplace=True)
+selected_df.set_index('PublishedAt', inplace=True)
+
 sf_mean = unique_df['SalaryFrom'].groupby('PublishedAt').median()
 st_mean = unique_df['SalaryTo'].groupby('PublishedAt').median()
 
