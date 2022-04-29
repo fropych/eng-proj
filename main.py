@@ -38,21 +38,17 @@ unique_df = unique_df[unique_df['Currency'] == 'RUR']
 #ROW DATA
 st.sidebar.subheader('Raw Data')
 show_data = st.sidebar.checkbox('Show raw data')
-if show_data:
+if show_data == True:
     show_unique = st.sidebar.checkbox('Show only unique vacancies')
-
-    salary_col = ['SalaryFrom', 'SalaryTo']
+    cur_df = {True: unique_df,
+              False: selected_df} 
+    
     st.header('Raw data')
     st.markdown("#### Job data for the last month from HeadHunter")
-    if show_unique:
-        df_to_show = unique_df.copy()
-        df_to_show[salary_col]=df_to_show[salary_col].convert_dtypes()
-        st.write(df)
-    else:  
-        df_to_show = selected_df.copy()
-        df_to_show[salary_col]=df_to_show[salary_col].convert_dtypes()
-        st.write(df)
-    
+    salary_col = ['SalaryFrom', 'SalaryTo']
+    df_to_show = cur_df[show_unique].copy()
+    df_to_show[salary_col]=df_to_show[salary_col].convert_dtypes()
+    st.write(df_to_show)
 
 #MAP
 st.header('Map of Vacancies')
