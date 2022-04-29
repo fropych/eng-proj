@@ -25,8 +25,15 @@ margin=go.layout.Margin(
         b=5,
         t=5,
         pad=4)
-
-#SELECT REQ
+#ROW DATA
+show_data = st.sidebar.checkbox('Show raw data')
+if show_data == True:
+    st.header('Raw data')
+    st.markdown(
+        "#### Job data for the last month from HeadHunter")
+    st.write(df)
+    
+#SELECT REQUESTS
 selected_texts = st.sidebar.multiselect("Select Requests",
                                         df['Text'].unique(),
                                         df['Text'].unique())
