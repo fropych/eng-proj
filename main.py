@@ -88,7 +88,7 @@ fig.update_layout(mapbox_style="open-street-map",
 st.plotly_chart(fig)
 
 #DISTRIBUTION
-st.header('Distibution of Vacancies')
+st.header('Distribution of Vacancies')
 sum_counts = selected_df['Text'].value_counts()
 fig = go.Figure()
 fig.add_trace(go.Pie(values=sum_counts, labels=sum_counts.index))
@@ -140,10 +140,11 @@ st.plotly_chart(fig)
 
 #NUMBER OF VACANCIES BY DAY
 st.header('Number of Vacancies by Day')
-fig = go.Figure()
-fig.add_trace(go.Histogram(x=unique_df.index,
-                           opacity=0.5,
-                           marker_color='rgba(0,176,246,1)'))
+# fig = go.Figure()
+# fig.add_trace(go.Histogram(x=unique_df.index,
+#                            opacity=0.5,
+#                            marker_color='rgba(0,176,246,1)'))
+fig = px.histogram(x=unique_df.index, color=unique_df["Experience"], opacity=0.7)
 fig.update_layout(margin=margin,
                   xaxis_showgrid=False,
                   yaxis_showgrid=False,)
