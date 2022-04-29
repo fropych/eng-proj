@@ -26,6 +26,7 @@ margin=go.layout.Margin(
         t=5,
         pad=4)
 #ROW DATA
+st.sidebar.header('Settings')
 show_data = st.sidebar.checkbox('Show raw data')
 if show_data == True:
     st.header('Raw data')
