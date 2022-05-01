@@ -134,11 +134,17 @@ st.plotly_chart(fig)
 
 #SALARY
 st.header('Average Salary')
-show = st.radio('Average by:', ['Experience', 'Schedule', 'Day'])
+show = st.radio('Average by:', ['Request','Experience', 'Schedule', 'Day'])
+if show != 'Request':
+    cur_df = unique_df
+else:
+    cur_df = selected_df
+show = 'Text' if show == 'Request' else show
+
 fig = go.Figure()
 if show == 'Day':
-    sf_mean = unique_df['SalaryFrom'].groupby('PublishedAt').median()
-    st_mean = unique_df['SalaryTo'].groupby('PublishedAt').median()
+    sf_mean = cur_df['SalaryFrom'].groupby('PublishedAt').median()
+    st_mean = cur_df['SalaryTo'].groupby('PublishedAt').median()
 
     idx = pd.date_range(sf_mean.index.min(), sf_mean.index.max())
     sf_mean = sf_mean.reindex(idx, fill_value=0).fillna(0)
@@ -151,14 +157,14 @@ if show == 'Day':
     plot_income(fig, 'SalaryFrom', sf_mean, sf_std, 'rgba(0,100,80,1)')
     plot_income(fig, 'SalaryTo', st_mean, st_std, 'rgba(0,176,246,1)')
 else:
-    fig.add_trace(go.Histogram(x=unique_df[show],
-                            y=unique_df['SalaryFrom'],
+    fig.add_trace(go.Histogram(x=cur_df[show],
+                            y=cur_df['SalaryFrom'],
                             histfunc='avg',
                             opacity=0.85,
                             marker_color='rgba(0,100,80,1)',
                             name='SalaryFrom',))
-    fig.add_trace(go.Histogram(x=unique_df[show],
-                            y=unique_df['SalaryTo'],
+    fig.add_trace(go.Histogram(x=cur_df[show],
+                            y=cur_df['SalaryTo'],
                             histfunc='avg',
                             opacity=0.35,
                             marker_color='rgba(0,176,246,1)',
